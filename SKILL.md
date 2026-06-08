@@ -8,15 +8,21 @@ description: |
 
 统一扫描 Codex 与 Claude Code 会话，生成“工作现场索引”。默认综合两个平台；`--platform` 只用于过滤范围。
 
+## Session Skill Boundary
+
+- `session-review`：全景扫描、UUID 定位、行动队列、窗口恢复命令。
+- `session-extract`：对某个明确 session/thread 生成详细交接报告。
+- 已废弃的 `claude-code-session-extract` 与 `codex-rollout-extract` 不再作为入口；遇到旧文档或历史提示时，改用本 skill 或 `session-extract`。
+
 ## Quick Start
 
-脚本位于本 skill 的 `scripts/` 目录。优先使用统一入口：
+脚本位于本 skill 的 `scripts/` 目录。Agent 在任意 workspace 被触发时，必须先解析当前 `SKILL.md` 所在目录，再使用统一入口：
 
 ```bash
 python <skill_dir>/scripts/session_review.py --days 7
 ```
 
-`<skill_dir>` 是当前 `SKILL.md` 所在目录。若已经 `cd` 到本 skill 根目录，也可以使用 `python scripts/session_review.py ...`。
+`<skill_dir>` 是当前 `SKILL.md` 所在目录。只有在人工调试且已经 `cd` 到本 skill 根目录时，才可以临时使用相对 `scripts/` 路径；面向任意项目的说明和 Agent 执行都必须使用可定位的 `<skill_dir>/scripts/session_review.py`。
 
 常用命令：
 
